@@ -17,7 +17,7 @@ import {
   transactionRoutes,
 } from '../../../Routes/SideBarRoutes';
 
-const drawerWidth = 280;
+const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   drawer: {

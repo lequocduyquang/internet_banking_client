@@ -6,6 +6,7 @@ const renderTextField = ({
   classes,
   label,
   input,
+  variant,
   meta: { touched, invalid, error },
   ...custom
 }) => {
@@ -16,8 +17,7 @@ const renderTextField = ({
       helperText={touched && error}
       {...input}
       {...custom}
-      variant="outlined"
-      fullWidth
+      variant={variant}
     />
   );
 };

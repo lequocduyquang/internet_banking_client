@@ -3,6 +3,7 @@ import React from 'react';
 import { TableCell, TableRow, Chip } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { formatter } from '../../../Helpers/ToCurrency';
 
 const styles = {
   tagCategory: {
@@ -41,15 +42,16 @@ const TransactionItem = ({ transaction, index }) => {
         return <Chip variant="outlined" label="None" />;
     }
   };
+
   return (
     <>
       <TableRow>
         <TableCell>{index}</TableCell>
-        <TableCell>{updated_at}</TableCell>
+        <TableCell>{new Date(updated_at).toLocaleString()}</TableCell>
         <TableCell>{sender_account_number}</TableCell>
         <TableCell>{receiver_account_number}</TableCell>
         <TableCell>{getTransactionType(transaction_type)}</TableCell>
-        <TableCell>{amount > 0 && `${amount} VNĐ`}</TableCell>
+        <TableCell>{amount > 0 && formatter.format(amount)}</TableCell>
         <TableCell>{message}</TableCell>
       </TableRow>
     </>

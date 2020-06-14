@@ -17,7 +17,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import PropTypes from 'prop-types';
 
-const drawerWidth = 280;
+const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   grow: {

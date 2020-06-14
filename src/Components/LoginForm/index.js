@@ -69,6 +69,8 @@ let LoginForm = (props) => {
                 name="email"
                 component={TextField}
                 label="Nhập Username"
+                variant="outlined"
+                fullWidth
                 required
               />
             </Grid>
@@ -76,7 +78,9 @@ let LoginForm = (props) => {
               <Field
                 name="password"
                 component={TextField}
+                fullWidth
                 label="Nhập mật khẩu"
+                variant="outlined"
                 required
                 type="password"
               />
