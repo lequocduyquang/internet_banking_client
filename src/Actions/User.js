@@ -1,12 +1,13 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-useless-catch */
+import { trackPromise } from 'react-promise-tracker';
 import { USER } from '../Constants';
 import { login } from '../Services/User';
 
 export const loginEmployee = (email, password) => {
   return async (dispatch) => {
     try {
-      const ret = await login(email, password);
+      const ret = await trackPromise(login(email, password));
       if (ret.status === 200) {
         const { accessToken, refreshToken } = ret.data;
         localStorage.setItem('accessToken', accessToken);

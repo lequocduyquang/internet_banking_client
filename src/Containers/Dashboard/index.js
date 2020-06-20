@@ -1,11 +1,9 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-// import { logout } from 'Actions/User.Action';
 import { connect } from 'react-redux';
-// import { PrivateRoute } from 'Components/PrivateRoute';
 import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
+import { PrivateRoute } from '../../Components/PrivateRoute';
 import NavBar from '../../Components/Dashboard/NavBar';
 import Sidebar from '../../Components/Dashboard/SideBar';
 import Resource from '../Resource';
@@ -60,21 +58,13 @@ const Dashboard = (props) => {
       />
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        {/* <PrivateRoute path={`${match.path}/:sidebarID`} component={Resource} /> */}
-        <Route path={`${match.path}/:sidebarID`} component={Resource} />
+        <PrivateRoute path={`${match.path}/:sidebarID`} component={Resource} />
       </main>
     </div>
   );
 };
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     logOut: () => dispatch(logout()),
-//   };
-// };
-
 Dashboard.propTypes = {
-  // logOut: PropTypes.func.isRequired,
   match: PropTypes.instanceOf(Object).isRequired,
 };
 

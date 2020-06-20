@@ -29,9 +29,12 @@ const styles = {
 
 const Transactions = ({ getTransaction, classes, transactions }) => {
   const [page, setPage] = useState(1);
+  const [beginDate, setBegin] = useState(null);
+  const [endDate, setEnd] = useState(null);
+  const [partnerCode, setPartner] = useState(null);
 
   useEffect(() => {
-    getTransaction(page);
+    getTransaction(page, beginDate, endDate, partnerCode);
   }, [page]);
 
   const handleChangePage = (event, value) => {
@@ -39,8 +42,10 @@ const Transactions = ({ getTransaction, classes, transactions }) => {
   };
 
   const handleFilter = (values) => {
-    console.log(values);
     const { begin, end, partner } = values;
+    setBegin(begin);
+    setEnd(end);
+    setPartner(partner);
     getTransaction(page, begin, end, partner);
   };
 
