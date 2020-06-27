@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import compose from 'recompose/compose';
 import Pagination from '@material-ui/lab/Pagination';
+import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import { DialogConfirm } from './ConfirmDelete';
 import { fetchEmployee, removeEmployee } from '../../../Actions/Employee';
 import EmployeeList from '../../../Components/Dashboard/TableBody';
@@ -18,6 +19,17 @@ const styles = {
     marginTop: 6,
     display: 'flex',
     justifyContent: 'center',
+  },
+  title: {
+    display: 'flex',
+    fontSize: 24,
+    justifyContent: 'center',
+    '& svg': {
+      margin: '22px 10px',
+    },
+  },
+  notFound: {
+    textAlign: 'center',
   },
 };
 
@@ -43,6 +55,10 @@ const Employees = ({ getEmployee, classes, employees, deleteEmployee }) => {
   return (
     <>
       <TableContainer component={Paper}>
+        <div className={classes.title}>
+          <SupervisedUserCircleIcon fontSize="large" />
+          <p>Danh sách nhân viên</p>
+        </div>
         <Table>
           <HeadList />
           <EmployeeList>
@@ -59,6 +75,11 @@ const Employees = ({ getEmployee, classes, employees, deleteEmployee }) => {
           </EmployeeList>
         </Table>
       </TableContainer>
+      {(!Array.isArray(items) || items.length === 0) && (
+        <div className={classes.notFound}>
+          <p>Không có giao dịch nào.</p>
+        </div>
+      )}
       <div className={classes.pagination}>
         <Pagination count={Math.ceil(total / 10)} onChange={handleChangePage} />
       </div>

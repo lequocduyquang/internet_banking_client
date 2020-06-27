@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import compose from 'recompose/compose';
 import Pagination from '@material-ui/lab/Pagination';
+import ReceiptIcon from '@material-ui/icons/Receipt';
 import { fetchTransaction } from '../../../Actions/Transaction';
 import EmployeeList from '../../../Components/Dashboard/TableBody';
 import HeadList from './HeadTable';
@@ -24,6 +25,17 @@ const styles = {
   },
   sum: {
     fontWeight: 'bold',
+  },
+  title: {
+    display: 'flex',
+    fontSize: 24,
+    justifyContent: 'center',
+    '& svg': {
+      margin: '22px 10px',
+    },
+  },
+  notFound: {
+    textAlign: 'center',
   },
 };
 
@@ -50,9 +62,12 @@ const Transactions = ({ getTransaction, classes, transactions }) => {
   };
 
   const { items, total, sum_amount } = transactions;
-
   return (
     <>
+      <div className={classes.title}>
+        <ReceiptIcon fontSize="large" />
+        <p>Danh sách giao dịch</p>
+      </div>
       <Filter onSubmit={handleFilter} />
       <TableContainer component={Paper}>
         <Table>
@@ -82,6 +97,11 @@ const Transactions = ({ getTransaction, classes, transactions }) => {
           )}
         </Table>
       </TableContainer>
+      {(!Array.isArray(items) || items.length === 0) && (
+        <div className={classes.notFound}>
+          <p>Không có giao dịch nào.</p>
+        </div>
+      )}
       <div className={classes.pagination}>
         <Pagination count={Math.ceil(total / 10)} onChange={handleChangePage} />
       </div>
