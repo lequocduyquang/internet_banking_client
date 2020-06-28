@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { PrivateRoute } from '../../Components/PrivateRoute';
 import NavBar from '../../Components/Dashboard/NavBar';
 import Sidebar from '../../Components/Dashboard/SideBar';
+import CopyRight from '../../Components/CopyRight';
 import Resource from '../Resource';
 import './styles.scss';
 
@@ -23,6 +24,13 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-end',
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
+  },
+  footer: {
+    position: 'fixed',
+    left: 0,
+    bottom: 0,
+    textAlign: 'center',
+    width: '110vw',
   },
 }));
 
@@ -44,23 +52,31 @@ const Dashboard = (props) => {
   };
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <NavBar
-        logout={handleLogout}
-        handleDrawerOpen={handleDrawerOpen}
-        open={open}
-      />
-      <Sidebar
-        handleDrawerClose={handleDrawerClose}
-        open={open}
-        match={match}
-      />
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <PrivateRoute path={`${match.path}/:sidebarID`} component={Resource} />
-      </main>
-    </div>
+    <>
+      <div className={classes.root}>
+        <CssBaseline />
+        <NavBar
+          logout={handleLogout}
+          handleDrawerOpen={handleDrawerOpen}
+          open={open}
+        />
+        <Sidebar
+          handleDrawerClose={handleDrawerClose}
+          open={open}
+          match={match}
+        />
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          <PrivateRoute
+            path={`${match.path}/:sidebarID`}
+            component={Resource}
+          />
+        </main>
+      </div>
+      <div className={classes.footer}>
+        <CopyRight />
+      </div>
+    </>
   );
 };
 
