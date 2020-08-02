@@ -1,6 +1,7 @@
+/* eslint-disable no-case-declarations */
 /* eslint-disable no-param-reassign */
 import _ from 'lodash';
-import { EMPLOYEE } from '../Constants';
+import { EMPLOYEE, USER } from '../Constants';
 
 const employee = (state = {}, action) => {
   switch (action.type) {
@@ -14,6 +15,11 @@ const employee = (state = {}, action) => {
       state.total -= 1;
       return { ...state };
     }
+    case USER.REGISTER_EMPLOYEE:
+      const { total } = state;
+      state.total = total + 1;
+      state.items.push(action.payload);
+      return { ...state };
     default:
       return state;
   }

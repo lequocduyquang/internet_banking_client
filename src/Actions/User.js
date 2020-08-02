@@ -2,7 +2,7 @@
 /* eslint-disable no-useless-catch */
 import { trackPromise } from 'react-promise-tracker';
 import { USER } from '../Constants';
-import { login } from '../Services/User';
+import { login, registerEmployee } from '../Services/User';
 
 export const loginEmployee = (email, password) => {
   return async (dispatch) => {
@@ -30,6 +30,30 @@ export const loginEmployee = (email, password) => {
   function loginEmployeeFailed() {
     return {
       type: USER.LOGIN_FAILED,
+    };
+  }
+};
+
+export const createEmployee = (username, email, password) => {
+  return async (dispatch) => {
+    try {
+      const res = await trackPromise(
+        registerEmployee(username, email, password),
+      );
+      if (res.status === 200) {
+        dispatch(success(res.data.employee));
+        alert('Thêm nhân viên thành công. ');
+      }
+    } catch (error) {
+      alert('Có lỗi xảy ra.');
+
+      throw error;
+    }
+  };
+  function success(data) {
+    return {
+      type: USER.REGISTER_EMPLOYEE,
+      payload: data,
     };
   }
 };

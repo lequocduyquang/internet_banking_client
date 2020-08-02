@@ -15,6 +15,11 @@ const App = () => {
     <Router>
       <Switch>
         <Route
+          path="/"
+          render={() => <Redirect to="/dashboard/employees" />}
+          exact
+        />
+        <Route
           path="/dashboard"
           render={() => <Redirect to="/dashboard/employees" />}
           exact

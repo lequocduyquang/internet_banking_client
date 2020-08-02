@@ -8,11 +8,16 @@ import { withStyles } from '@material-ui/core/styles';
 import compose from 'recompose/compose';
 import Pagination from '@material-ui/lab/Pagination';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import { reset } from 'redux-form';
 import { DialogConfirm } from './ConfirmDelete';
 import { fetchEmployee, removeEmployee } from '../../../Actions/Employee';
+import { createEmployee } from '../../../Actions/User';
 import EmployeeList from '../../../Components/Dashboard/TableBody';
 import EmployeeItem from './EmployeeItem';
 import HeadList from './HeadTable';
+import CreateEmployee from './CreateEmployee';
 
 const styles = {
   pagination: {
@@ -31,12 +36,25 @@ const styles = {
   notFound: {
     textAlign: 'center',
   },
+  addBtn: {
+    position: 'fixed',
+    bottom: 10,
+    right: 10,
+  },
 };
 
-const Employees = ({ getEmployee, classes, employees, deleteEmployee }) => {
+const Employees = ({
+  getEmployee,
+  classes,
+  employees,
+  deleteEmployee,
+  create,
+  resetForm,
+}) => {
   const [page, setPage] = useState(1);
   const [idEmployee, setidEmployee] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
+  const [openForm, setOpenForm] = useState(false);
 
   useEffect(() => {
     getEmployee(page);
@@ -49,6 +67,12 @@ const Employees = ({ getEmployee, classes, employees, deleteEmployee }) => {
   const handleDelete = () => {
     deleteEmployee(idEmployee);
     setOpenDialog(false);
+  };
+
+  const handleCreate = (values) => {
+    const { username, email, password } = values;
+    create(username, email, password);
+    setOpenForm(false);
   };
 
   const { items, total } = employees;
@@ -83,10 +107,26 @@ const Employees = ({ getEmployee, classes, employees, deleteEmployee }) => {
       <div className={classes.pagination}>
         <Pagination count={Math.ceil(total / 10)} onChange={handleChangePage} />
       </div>
+      <Fab
+        className={classes.addBtn}
+        color="primary"
+        aria-label="add"
+        onClick={() => {
+          resetForm();
+          setOpenForm(true);
+        }}
+      >
+        <AddIcon />
+      </Fab>
       <DialogConfirm
         handleDelete={handleDelete}
         open={openDialog}
         handleClose={setOpenDialog}
+      />
+      <CreateEmployee
+        open={openForm}
+        handleClose={setOpenForm}
+        handleCreate={handleCreate}
       />
     </>
   );
@@ -106,11 +146,19 @@ const mapDispatchToProps = (dispatch) => {
     deleteEmployee: (id) => {
       dispatch(removeEmployee(id));
     },
+    create: (username, email, password) => {
+      dispatch(createEmployee(username, email, password));
+    },
+    resetForm: () => {
+      dispatch(reset('createEmployee'));
+    },
   };
 };
 
 Employees.propTypes = {
   getEmployee: PropTypes.func.isRequired,
+  resetForm: PropTypes.func.isRequired,
+  create: PropTypes.func.isRequired,
   classes: PropTypes.instanceOf(Object).isRequired,
   employees: PropTypes.instanceOf(Object).isRequired,
   deleteEmployee: PropTypes.func.isRequired,
